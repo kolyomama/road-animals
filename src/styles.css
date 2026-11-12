@@ -1,6 +1,8 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "@fontsource-variable/alegreya";
+@import "@fontsource-variable/manrope";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,9 +42,15 @@
   --color-sun: var(--sun);
   --color-graphite: var(--graphite);
 
-  --font-display: "Sora", sans-serif;
-  --font-body: "Manrope", sans-serif;
-  --font-sans: "Manrope", sans-serif;
+  --color-moss: var(--moss);
+  --color-clay: var(--clay);
+  --color-water: var(--water);
+  --color-cream: var(--cream);
+
+  /* И двата шрифта поддържат кирилица и се зареждат локално (без Google Fonts) */
+  --font-display: "Alegreya Variable", Georgia, "Times New Roman", serif;
+  --font-body: "Manrope Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Manrope Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 :root {
@@ -74,6 +82,10 @@
   --earth: oklch(0.55 0.06 55);
   --sun: oklch(0.78 0.11 80);
   --graphite: oklch(0.30 0 0);
+  --moss: oklch(0.62 0.09 140);
+  --clay: oklch(0.62 0.12 45);
+  --water: oklch(0.80 0.04 230);
+  --cream: oklch(0.975 0.012 90);
 }
 
 .dark {
@@ -108,13 +120,54 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background-color: var(--color-cream);
+    background-image: url("/images/contours.svg");
+    background-size: 640px 640px;
     color: var(--color-foreground);
     font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    letter-spacing: -0.01em;
+    /* равномерно разпределени редове в заглавията */
+    text-wrap: balance;
+  }
+
+  /* без „самотни“ думи на последния ред (за браузърите, които го поддържат) */
+  p, li, blockquote {
+    text-wrap: pretty;
+  }
+}
+
+/* Завъртащи се карти */
+@utility flip-scene {
+  perspective: 1200px;
+}
+@utility flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+@utility flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+@utility flip-back {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flip-inner {
+    transition-duration: 0.01ms;
   }
 }
 

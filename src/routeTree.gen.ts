@@ -10,33 +10,74 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HerpetofaunaRouteImport } from './routes/herpetofauna'
+import { Route as KampaniataRouteImport } from './routes/kampaniata'
+import { Route as KartaRouteImport } from './routes/karta'
+import { Route as UcheniteRouteImport } from './routes/uchenite'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HerpetofaunaRoute = HerpetofaunaRouteImport.update({
+  id: '/herpetofauna',
+  path: '/herpetofauna',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KampaniataRoute = KampaniataRouteImport.update({
+  id: '/kampaniata',
+  path: '/kampaniata',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KartaRoute = KartaRouteImport.update({
+  id: '/karta',
+  path: '/karta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UcheniteRoute = UcheniteRouteImport.update({
+  id: '/uchenite',
+  path: '/uchenite',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/herpetofauna': typeof HerpetofaunaRoute
+  '/kampaniata': typeof KampaniataRoute
+  '/karta': typeof KartaRoute
+  '/uchenite': typeof UcheniteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/herpetofauna': typeof HerpetofaunaRoute
+  '/kampaniata': typeof KampaniataRoute
+  '/karta': typeof KartaRoute
+  '/uchenite': typeof UcheniteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/herpetofauna': typeof HerpetofaunaRoute
+  '/kampaniata': typeof KampaniataRoute
+  '/karta': typeof KartaRoute
+  '/uchenite': typeof UcheniteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/herpetofauna' | '/kampaniata' | '/karta' | '/uchenite'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/herpetofauna' | '/kampaniata' | '/karta' | '/uchenite'
+  id:
+    '__root__' | '/' | '/herpetofauna' | '/kampaniata' | '/karta' | '/uchenite'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HerpetofaunaRoute: typeof HerpetofaunaRoute
+  KampaniataRoute: typeof KampaniataRoute
+  KartaRoute: typeof KartaRoute
+  UcheniteRoute: typeof UcheniteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,12 +89,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/herpetofauna': {
+      id: '/herpetofauna'
+      path: '/herpetofauna'
+      fullPath: '/herpetofauna'
+      preLoaderRoute: typeof HerpetofaunaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kampaniata': {
+      id: '/kampaniata'
+      path: '/kampaniata'
+      fullPath: '/kampaniata'
+      preLoaderRoute: typeof KampaniataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/karta': {
+      id: '/karta'
+      path: '/karta'
+      fullPath: '/karta'
+      preLoaderRoute: typeof KartaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uchenite': {
+      id: '/uchenite'
+      path: '/uchenite'
+      fullPath: '/uchenite'
+      preLoaderRoute: typeof UcheniteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HerpetofaunaRoute: HerpetofaunaRoute,
+  KampaniataRoute: KampaniataRoute,
+  KartaRoute: KartaRoute,
+  UcheniteRoute: UcheniteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
